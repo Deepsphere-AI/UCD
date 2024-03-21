@@ -1,29 +1,40 @@
+class FastqString(str):
+    '''
+    FastqString class takes a FASTQ sequence name line as input and provides
+    a method to parse and display each field of the run information.
 
+    Example Input:
+    @EAS139:136:FC706VJ:2:2104:15343:197393
+    
+    Output:
+    Instrument = EAS139
+    Run ID = 136
+    Flow Cell ID = FC706VJ
+    Flow Cell Lane = 2
+    Tile Number = 2104
+    X-coord = 15343
+    Y-coord = 197393
+    '''
 
-class FastqParse(str):
-    """
-    FastqParse class takes a string object and returns a sliced string object.
-    Keyword arguments:
-    sequence -- Single line of a FASTQ file.
-    """
-    def __new__(self, sequence):
-        """Slices sequence & returns a string object w/o '@' symbol."""
-        return str.__new__(self, sequence[1:])
+    def parse(self):
+        '''Parse the FASTQ seqname line and display each field.'''
+        fields = self.split(":")
+        print(f"Instrument = {fields[0][1:]}\n" +
+              f"Run ID = {fields[1]}\n" +
+              f"Flow Cell ID = {fields[2]}\n" +
+              f"Flow Cell Lane = {fields[3]}\n" +
+              f"Tile Number = {fields[4]}\n" +
+              f"X-coord = {fields[5]}\n" +
+              f"Y-coord = {fields[6]}")
 
-    def parseSequence(self):
-        """Splits string based on ':' delimiter. Prints out info."""
-        parsedSeq = self.split(":")
-        instr, rid, fcid, fcl, tnum, x, y = parsedSeq
-        print('Instrument = '+instr+'\nRun ID = '+rid+
-              '\nFlow Cell ID = '+fcid+'\nFlow Cell Lane = '+fcl+
-              '\nTile Number = '+tnum+'\nX-coord ='+x+'\nY-coord = '+y)
+def main():
+    '''
+    Prompt the user for a FASTQ seqname line, create a FastqString object,
+    and parse the information.
+    '''
+    seqname = input("Enter the FASTQ seqname line: ")
+    fastq = FastqString(seqname)
+    fastq.parse()
 
-"""
-Builds a new string object of FastqParse class based on what the user inputs.
-
-Parses out each field of the run information from the string and displays 
-each of them on a new line.
-"""
-seqName = input("Enter a single line of a FASTQ formatted file: ")
-seq = FastqParse(seqName)
-seq.parseSequence()
+if __name__ == "__main__":
+    main()

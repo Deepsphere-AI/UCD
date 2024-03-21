@@ -1,92 +1,78 @@
+'''
+This script converts between different codon and amino acid representations.
+It uses DNA and RNA codon tables as well as mappings between short and long amino acid codes.
+'''
 
-
-class Converter(str):
-
-    def __new__(self, sequence):
-        """Creates a string object in uppercase letters."""
-        return str.__new__(self, sequence.upper())
-    
-    def translate(self):
-        """Looks up string object(key) in Dictionary.
-        If key is found it returns the value. If not, returns 'Unknown'.
-        """
-        print(self+" = "+myDictionary.get(self,'Unknown'))
-
-""" Dictionary which contains a DNA codon table, RNA codon table and
-a one/three letter amino acid table.
-"""
-myDictionary = {               
-#                      DNA Codon Table
-#                        Second Base
-#        T             C             A             G
-# T
-    'TTT': 'PHE', 'TCT': 'SER', 'TAT': 'TYR', 'TGT': 'CYS',    # TxT
-    'TTC': 'PHE', 'TCC': 'SER', 'TAC': 'TYR', 'TGC': 'CYS',    # TxC
-    'TTA': 'LEU', 'TCA': 'SER', 'TAA': '---', 'TGA': '---',    # TxA
-    'TTG': 'LEU', 'TCG': 'SER', 'TAG': '---', 'TGG': 'URP',    # TxG
-# C
-    'CTT': 'LEU', 'CCT': 'PRO', 'CAT': 'HIS', 'CGT': 'ARG',    # CxT
-    'CTC': 'LEU', 'CCC': 'PRO', 'CAC': 'HIS', 'CGC': 'ARG',    # CxC
-    'CTA': 'LEU', 'CCA': 'PRO', 'CAA': 'GLN', 'CGA': 'ARG',    # CxA
-    'CTG': 'LEU', 'CCG': 'PRO', 'CAG': 'GLN', 'CGG': 'ARG',    # CxG
-# A
-    'ATT': 'ILE', 'ACT': 'THR', 'AAT': 'ASN', 'AGT': 'SER',    # AxT
-    'ATC': 'ILE', 'ACC': 'THR', 'AAC': 'ASN', 'AGC': 'SER',    # AxC
-    'ATA': 'ILE', 'ACA': 'THR', 'AAA': 'LYS', 'AGA': 'ARG',    # AxA
-    'ATG': 'MET', 'ACG': 'THR', 'AAG': 'LYS', 'AGG': 'ARG',    # AxG
-# G
-    'GTT': 'VAL', 'GCT': 'ALA', 'GAT': 'ASP', 'GGT': 'GLY',    # GxT
-    'GTC': 'VAL', 'GCC': 'ALA', 'GAC': 'ASP', 'GGC': 'GLY',    # GxC
-    'GTA': 'VAL', 'GCA': 'ALA', 'GAA': 'GLU', 'GGA': 'GLY',    # GxA
-    'GTG': 'VAL', 'GCG': 'ALA', 'GAG': 'GLU', 'GGG': 'GLY',    # GxG 
-
-#                      RNA Codon Table 
-#                        Second Base
-#        U             C             A             G
-# U
-    'UUU': 'PHE', 'UCU': 'SER', 'UAU': 'TYR', 'UGU': 'CYS',    # UxU
-    'UUC': 'PHE', 'UCC': 'SER', 'UAC': 'TYR', 'UGC': 'CYS',    # UxC
-    'UUA': 'LEU', 'UCA': 'SER', 'UAA': '---', 'UGA': '---',    # UxA
-    'UUG': 'LEU', 'UCG': 'SER', 'UAG': '---', 'UGG': 'URP',    # UxG
-# C
-    'CUU': 'LEU', 'CCU': 'PRO', 'CAU': 'HIS', 'CGU': 'ARG',    # CxU
-    'CUC': 'LEU', 'CCC': 'PRO', 'CAC': 'HIS', 'CGC': 'ARG',    # CxC
-    'CUA': 'LEU', 'CCA': 'PRO', 'CAA': 'GLN', 'CGA': 'ARG',    # CxA
-    'CUG': 'LEU', 'CCG': 'PRO', 'CAG': 'GLN', 'CGG': 'ARG',    # CxG
-# A
-    'AUU': 'ILE', 'ACU': 'THR', 'AAU': 'ASN', 'AGU': 'SER',    # AxU
-    'AUC': 'ILE', 'ACC': 'THR', 'AAC': 'ASN', 'AGC': 'SER',    # AxC
-    'AUA': 'ILE', 'ACA': 'THR', 'AAA': 'LYS', 'AGA': 'ARG',    # AxA
-    'AUG': 'MET', 'ACG': 'THR', 'AAG': 'LYS', 'AGG': 'ARG',    # AxG
-# G
-    'GUU': 'VAL', 'GCU': 'ALA', 'GAU': 'ASP', 'GGU': 'GLY',    # GxU
-    'GUC': 'VAL', 'GCC': 'ALA', 'GAC': 'ASP', 'GGC': 'GLY',    # GxC
-    'GUA': 'VAL', 'GCA': 'ALA', 'GAA': 'GLU', 'GGA': 'GLY',    # GxA
-    'GUG': 'VAL', 'GCG': 'ALA', 'GAG': 'GLU', 'GGG': 'GLY',    # GxG 
-
-#                   One Letter Amino Acid Table
- 
-    'A': 'ALA', 'R': 'ARG', 'N': 'ASN', 'D': 'ASP', 'B': 'ASX',
-    'C': 'CYS', 'E': 'GLU', 'Q': 'GLN', 'Z': 'GLX', 'G': 'GLY',
-    'H': 'HIS', 'I': 'ILE', 'L': 'LEU', 'K': 'LYS', 'M': 'MET',
-    'F': 'PHE', 'P': 'PRO', 'S': 'SER', 'T': 'THR', 'W': 'TRP',
-    'Y': 'TYR', 'V': 'VAL',
-
-
-#                   Three Letter Amino Acid Table
-
-    'ALA': 'A', 'ARG': 'R', 'ASN': 'N', 'ASP': 'D', 'ASX': 'B',
-    'CYS': 'C', 'GLU': 'E', 'GLN': 'Q', 'GLX': 'Z', 'GLY': 'G',
-    'HIS': 'H', 'ILE': 'I', 'LEU': 'L', 'LYS': 'K', 'MET': 'M',
-    'PHE': 'F', 'PRO': 'P', 'SER': 'S', 'THR': 'T', 'TRP': 'W',
-    'TYR': 'Y', 'VAL': 'V'
+short_AA = {
+    'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
+    'ILE': 'I', 'PRO': 'P', 'THR': 'T', 'PHE': 'F', 'ASN': 'N',
+    'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W',
+    'ALA': 'A', 'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M'
 }
 
-"""
-Takes user input and creates a string object belonging to class Converter.
+# Creating a reverse mapping for long amino acid names to short names
+long_AA = {value: key for key, value in short_AA.items()}
 
-Translates users input.
-"""
-seq = input("Enter either an amino acid code or a codon code to convert : ")
-code = Converter(seq)
-code.translate()
+RNA_codon_table = {
+# Second Base
+# U C A G
+#U
+'UUU': 'Phe', 'UCU': 'Ser', 'UAU': 'Tyr', 'UGU': 'Cys',
+'UUC': 'Phe', 'UCC': 'Ser', 'UAC': 'Tyr', 'UGC': 'Cys',
+'UUA': 'Leu', 'UCA': 'Ser', 'UAA': '---'
+, 'UGA': '---'
+,
+'UUG': 'Leu', 'UCG': 'Ser', 'UAG': '---'
+, 'UGG': 'Trp',
+#C
+'CUU': 'Leu', 'CCU': 'Pro', 'CAU': 'His', 'CGU': 'Arg',
+'CUC': 'Leu', 'CCC': 'Pro', 'CAC': 'His', 'CGC': 'Arg',
+'CUA': 'Leu', 'CCA': 'Pro', 'CAA': 'Gln', 'CGA': 'Arg',
+'CUG': 'Leu', 'CCG': 'Pro', 'CAG': 'Gln', 'CGG': 'Arg',
+#A
+'AUU': 'Ile', 'ACU': 'Thr', 'AAU': 'Asn', 'AGU': 'Ser',
+'AUC': 'Ile', 'ACC': 'Thr', 'AAC': 'Asn', 'AGC': 'Ser',
+'AUA': 'Ile', 'ACA': 'Thr', 'AAA': 'Lys', 'AGA': 'Arg',
+'AUG': 'Met', 'ACG': 'Thr', 'AAG': 'Lys', 'AGG': 'Arg',
+#G
+'GUU': 'Val', 'GCU': 'Ala', 'GAU': 'Asp', 'GGU': 'Gly',
+'GUC': 'Val', 'GCC': 'Ala', 'GAC': 'Asp', 'GGC': 'Gly',
+'GUA': 'Val', 'GCA': 'Ala', 'GAA': 'Glu', 'GGA': 'Gly',
+'GUG': 'Val', 'GCG': 'Ala', 'GAG': 'Glu', 'GGG': 'Gly'
+}
+
+# Creating a DNA codon table from the RNA codon table
+dnaCodonTable = {key.replace('U', 'T'): value for key, value in RNA_codon_table.items()}
+
+def main():
+    '''
+    Converts DNA/RNA codons or amino acid codes to their respective translations.
+    '''
+
+    input_code = input("Enter a DNA/RNA codon or an amino acid code: ").upper()
+
+    # DNA/RNA codon conversion
+    if input_code in dnaCodonTable:
+        # For DNA codons, convert to uppercase amino acid name
+        print(f"{input_code} = {dnaCodonTable[input_code].upper()}")
+    elif input_code in RNA_codon_table:
+        # For RNA codons, similarly convert to uppercase amino acid name
+        print(f"{input_code} = {RNA_codon_table[input_code].upper()}")
+    elif len(input_code) == 1:
+        # For one-letter amino acid codes, find the three-letter equivalent
+        if input_code in long_AA:
+            print(f"{input_code} = {long_AA[input_code].upper()}")
+        else:
+            print("Unknown code")
+    elif len(input_code) == 3:
+        # For three-letter amino acid codes, convert to one-letter code
+        # input_code = input_code.capitalize()  # Correct the casing for dictionary lookup
+        if input_code in short_AA:
+            print(f"{input_code.upper()} = {short_AA[input_code]}")
+        else:
+            print("Unknown code")
+    else:
+        print("Unknown code")
+
+if __name__ == "__main__":
+    main()
